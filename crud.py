@@ -37,7 +37,7 @@ def set_strip_power(db: Session, strip: models.Strip, power:bool):
     db.commit()
     return strip
 
-def set_stip_single_color(db:Session, strip: models.Strip, color: str):
+def set_strip_single_color(db:Session, strip: models.Strip, color: str):
     strip.single_color_hex = color
     db.commit()
     db.refresh(strip)

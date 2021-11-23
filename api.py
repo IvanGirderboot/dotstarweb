@@ -82,9 +82,9 @@ async def set_strip_power(strip_id: int, power: bool, db: Session = Depends(get_
     rgb = webcolors.hex_to_rgb(strip.single_color_hex)
     dots.fill(rgb)
   else:
-    dots.fill(0,0,0) 
+    dots.fill((0,0,0)) 
   
-  return crud.set_strip_power(strip,power)
+  return crud.set_strip_power(db,strip,power)
 
 
 
@@ -102,7 +102,7 @@ async def set_strip_color(strip_id: int, settings:LEDStripSingleColor, db: Sessi
   rgb = webcolors.hex_to_rgb(strip.single_color_hex)
   dots.fill(rgb)
 
-  return crud.set_strip_single_color(strip,settings.single_hex_color)
+  return crud.set_strip_single_color(db,strip,settings.single_hex_color)
 
 
 @app.delete("/v1/strip/{strip_id}", status_code=204, responses={404: {"model": GenericException}})
