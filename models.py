@@ -22,6 +22,8 @@ class Strip(Base):
     led_count = Column(Integer)
     default_brightness = Column(Float)
     power = Column(Boolean)
+
+    single_color_brightness = Column(Float)
     single_color_hex = Column(String)
 
     mode = Column(Enum(LightingMode))

@@ -7,9 +7,10 @@ import models, schemas
 def create_strip(db: Session, strip: schemas.StripCreate):
     db_strip = models.Strip(**strip.dict())
 
-    #Set some defaults
+    #Set some defaults for new strips
     db_strip.mode = models.LightingMode.single_color
     db_strip.single_color_hex = "#FFFFFF"
+    db_strip.single_color_brightness = db_strip.default_brightness
     db_strip.power = False
 
     db.add(db_strip)
