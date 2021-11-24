@@ -121,7 +121,7 @@ async def set_strip_color(strip_id: int, settings: LEDStripSingleColor, db: Sess
     rgb = webcolors.hex_to_rgb(strip.single_color_hex)
     dots.fill(rgb)
 
-    return crud.set_strip_single_color(db, strip, settings.single_hex_color)
+    return crud.set_strip_single_color(db, strip, settings.single_color_hex)
 
 
 @app.delete("/v1/strip/{strip_id}", status_code=204, responses={404: {"model": GenericException}})
