@@ -1,6 +1,7 @@
 import enum
 from typing import Optional, List
 from pydantic import BaseModel, Field
+from pydantic.errors import FloatError
 import models
 
 
@@ -26,6 +27,7 @@ class Strip(StripBase):
     id: int
     mode: models.LightingMode
     power: bool
+    single_color_brightness: float
     single_color_hex: str
 
     #simple_pattern

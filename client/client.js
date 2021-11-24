@@ -7,10 +7,10 @@ function getStripStatus(id) {
 }
 
 function processResponse(data) {
-    document.getElementById("response").innerHTML=data.power
-    document.getElementById("rgb_value").value=data.single_color_hex
+    document.getElementById("response").innerHTML=data.name
     document.getElementById("powerswitch").checked = data.power
-    document.getElementById("brightness").value = data.default_brightness
+    document.getElementById("rgb_value").value=data.single_color_hex
+    document.getElementById("brightness").value = data.single_color_brightness
 }
 
 function sendPowerRequest(element) {
@@ -33,7 +33,7 @@ function setSingleColor(element) {
 
     id = element.dataset.strip
     data = {
-        single_hex_color:  document.getElementById("rgb_value").value,
+        single_color_hex:  document.getElementById("rgb_value").value,
         brightness: document.getElementById("brightness").value
     }
 

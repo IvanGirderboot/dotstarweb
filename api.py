@@ -55,7 +55,7 @@ class LEDStripControlRequest(BaseModel):
 
 
 class LEDStripSingleColor(LEDStripControlRequest):
-    single_hex_color: str = Field(
+    single_color_hex: str = Field(
         None, regex="^#[0-9a-fA-F]{6}$", description="hex_color should be in the format #0055FF")
 
 
