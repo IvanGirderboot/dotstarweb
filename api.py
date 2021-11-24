@@ -3,7 +3,7 @@ from fastapi import Depends, FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from fastapi.middleware.cors import CORSMiddleware
-from starlette.responses import Response
+from starlette.responses import RedirectResponse
 import webcolors
 
 from sqlalchemy.orm import Session
@@ -72,8 +72,7 @@ class GenericException(BaseModel):
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
-
+     return RedirectResponse(url="/client", status_code=301)
 
 @app.post("/v1/strip/", response_model=schemas.Strip)
 def create_strip(strip: schemas.StripCreate, db: Session = Depends(get_db)):
