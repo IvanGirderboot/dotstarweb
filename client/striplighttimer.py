@@ -1,39 +1,48 @@
 '''Example Timer Client'''
 import datetime
+import threading
 import time
 
 import requests
 
 HEADERS = {'accept': 'application/json'}
-MARIO_API = "http://mario.clients.shimley:8000/v1/strip/1/power"
-LUIGI_API = "http://luigi.clients.shimley:8000/v1/strip/1/power"
 
 
-def timer():
+def timer(on_hour, on_minute, off_hour, off_minute, host='http://localhost:8000', strip_id=1):
     '''Turns LED strips on and off.'''
+    API_ADDRESS = f'/v1/strip/{strip_id}/power'
+    host = host.rstrip('/')
     while True:
         now = datetime.datetime.today().timetuple()
-        if now.tm_hour == 18 and now.tm_min == 0:
+        if now.tm_hour == on_hour and now.tm_min == on_minute:
             payload = {'power': 'true'}
-            mario = requests.put(
-                url=MARIO_API, headers=HEADERS, params=payload)
-            luigi = requests.put(
-                url=LUIGI_API, headers=HEADERS, params=payload)
-        elif now.tm_hour == 2 and now.tm_min == 0:
+            strip = requests.put(
+                url=host + API_ADDRESS, headers=HEADERS, params=payload)
+
+        elif now.tm_hour == off_hour and now.tm_min == off_minute:
             payload = {'power': 'false'}
-            mario = requests.put(
-                url=MARIO_API, headers=HEADERS, params=payload)
-            luigi = requests.put(
-                url=LUIGI_API, headers=HEADERS, params=payload)
+            strip = requests.put(
+                url=host + API_ADDRESS, headers=HEADERS, params=payload)
+
         else:
             time.sleep(59)
             continue
-        if mario.status_code != 200:
+        if strip.status_code != 200:
             print("Mario looses a life!")
-        if luigi.status_code != 200:
-            print("Luigi Looses a Life")
+            print(strip.text)
+
         time.sleep(59)
 
 
 if __name__ == "__main__":
-    timer()
+    MARIO = "http://mario.clients.shimley:8000/"
+    LUIGI = "http://luigi.clients.shimley:8000"
+
+    mario = threading.Thread(target=timer, args=(18, 00, 2, 00, MARIO, 1))
+    mario.start()
+
+    luigi = threading.Thread(target=timer, args=(18, 00, 2, 00, LUIGI, 1))
+    luigi.start()
+
+    mario.join()
+    luigi.join()
