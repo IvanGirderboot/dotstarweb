@@ -10,6 +10,7 @@ HEADERS = {'accept': 'application/json'}
 
 def timer(on_hour, on_minute, off_hour, off_minute, host='http://localhost:8000', strip_id=1):
     '''Turns LED strips on and off.'''
+    print(f'Starting timer for Strip {strip_id} on {host}: On @ {on_hour}:{on_minute} / Off @ {off_hour}:{off_minute}')
     API_ADDRESS = f'/v1/strip/{strip_id}/power'
     host = host.rstrip('/')
     while True:
@@ -30,6 +31,8 @@ def timer(on_hour, on_minute, off_hour, off_minute, host='http://localhost:8000'
         if strip.status_code != 200:
             print("Mario looses a life!")
             print(strip.text)
+        else:
+            print(f'Set {payload} on {host} Strip ID {strip_id}')
 
         time.sleep(59)
 
